@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 const config = require('./config.json');
 const client = new Discord.Client();
+const fs = require("fs")
 
 client.login(config.token);
 
@@ -53,6 +54,24 @@ client.on('message', message => {
             message.channel.send({
                 files: ['./images/haruhi.png']
             });
+        }
+        else try {
+            const arrayOfImages = fs.readdirSync("./images")
+            console.log(arrayOfFiles)
+            var gudMeme = [];
+            var x = 0;
+            arrayOfImages.forEach((meme) => {
+                if (meme.includes(message.content)) {
+                    gudMeme[x] = meme[0];   //most likely place for it to break, as meme is 50/50 not an array i think
+                    x = x + 1;
+                }
+            });
+            var temperature = rand % gudMeme.length;
+            message.channel.send({
+                files: ['./images/' + gudMeme[temperature]]
+            });
+        } catch(e) {
+            console.log(e)
         }
     }
 });
